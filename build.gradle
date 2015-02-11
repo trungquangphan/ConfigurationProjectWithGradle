@@ -1,0 +1,53 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+loadConfiguration()
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+    exclude '**/*.groovy'
+    filter(ReplaceTokens, tokens: project.ext.config)
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+def loadConfiguration() {
+    def environment = hasProperty('env') ? env : 'dev'
+    project.ext.envrionment = environment
+    println "Environment is set to $environment"
+    def configFile = file('src/main/resources/environment.groovy')
+    def config = new ConfigSlurper("$environment").parse(configFile.toURL())
+    project.ext.config = config.toProperties()
+}
+
+task makeCopy(type:Copy){
+	from 'src/main/resources'
+	into 'build'
+	exclude '**/*.groovy'
+	filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: project.ext.config)
+}
+
