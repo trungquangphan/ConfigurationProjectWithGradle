@@ -1,0 +1,2 @@
+# ConfigurationProjectWithGradle
+SimpleConfigurationProjectWithGradle
