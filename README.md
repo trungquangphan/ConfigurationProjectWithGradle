@@ -1,7 +1,7 @@
 # ConfigurationProjectWithGradle
 SimpleConfigurationProjectWithGradle
 
-This project make the process of configuration loose coupling with development.
+This project make the process of configuration loose coupling with the development.
 It will help the system administrator switches the enviroment easily, quickly and safe.
   Follow the below steps to complete the journey:
 1. Put all properties for each enviroment in one place.
